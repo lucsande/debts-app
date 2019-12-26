@@ -3,7 +3,7 @@ import React from "react";
 const GsignInBtn = () => {
   return (
     <p class="gbtn">
-      <a href="/auth/google" class="button">
+      <a href="http://localhost:5000/auth/google" class="button">
         <div>
           <span class="svgIcon t-popup-svg">
             <svg class="svgIcon-use" width="25" height="37" viewBox="0 0 25 25">

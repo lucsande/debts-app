@@ -3,13 +3,7 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      minlength: 3
-    },
+    googleId: { type: String },
     firstName: {
       type: String,
       required: true,
@@ -19,6 +13,12 @@ const userSchema = new Schema(
     lastName: {
       type: String,
       required: true,
+      trim: true,
+      minlength: 3
+    },
+    email: {
+      type: String,
+      unique: true,
       trim: true,
       minlength: 3
     }
