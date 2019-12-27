@@ -4,6 +4,14 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 const User = mongoose.model("User");
 
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+passport.deserializeUser(async (id, done) => {
+  const user = await User.findById(id);
+  done(null, user);
+});
+
 passport.use(
   new GoogleStrategy(
     {
@@ -12,11 +20,6 @@ passport.use(
       callbackURL: "/auth/google/callback",
       proxy: true
     },
-    // (accessToken, refreshToken, profile, done) => {
-    //   console.log("accesstoken: ", accessToken);
-    //   console.log("profile: ", profile);
-    //   console.log("done: ", done);
-    // }
     async (accessToken, refreshToken, profile, done) => {
       const foundUser = await User.findOne({ googleId: profile.id });
 
@@ -26,10 +29,11 @@ passport.use(
 
       const newUser = await new User({
         googleId: profile.id,
-        firstName: profile.givenName,
-        lastName: profile.familyName,
+        firstName: profile.name.givenName,
+        lastName: profile.name.familyName,
         email: profile.emails[0].value
       });
+      newUser.save();
 
       return done(null, newUser);
     }
